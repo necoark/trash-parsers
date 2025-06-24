@@ -1,0 +1,26 @@
+services:
+  parser:
+    container_name: pepper-parser
+    build: ./PepperParser
+    depends_on: 
+      - firefox
+    restart: unless-stopped
+    environment:
+      TG_BOT_TOKEN: your_token
+      TG_NOTIFY_CHANNEL_ID: channel_id or channel_username
+
+  firefox:
+    image: selenium/standalone-firefox
+    hostname: firefox
+    container_name: selenium-firefox
+    expose:
+      - "4444"
+    shm_size: "4gb"
+    environment:
+      - SE_NODE_MAX_SESSIONS=2
+      - SE_NODE_SESSION_TIMEOUT=180
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 4G
